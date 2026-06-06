@@ -26,7 +26,9 @@ import Shop from './pages/Shop'
 import { useEffect } from 'react'
 import { io } from 'socket.io-client'
 import { setSocket, addMyOrders, updateRealtimeOrderStatus, updateShopOrderInState } from './redux/userSlice'
-export const serverUrl="http://localhost:3000"
+
+// Use environment variable for server URL, fallback to localhost for development
+export const serverUrl = import.meta.env.VITE_SERVER_URL || "http://localhost:3000"
 
 function App() {
    const {userData}=useSelector(state=>state.user)
