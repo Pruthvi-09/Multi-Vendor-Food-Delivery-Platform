@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@import "./animations.css";
+
+*{
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    box-sizing: border-box;
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar{
+    display: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
