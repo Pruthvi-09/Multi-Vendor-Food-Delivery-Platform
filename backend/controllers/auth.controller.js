@@ -4,7 +4,7 @@ const gentoken= require('../utils/token.js')
 const sendOtpMail = require('../utils/mail.js')
 
 
-// ---------------------sign up---------------------
+// ---------------------sign up--------------------
 
  const signUp= async (req,res)=>{
     try{
@@ -155,26 +155,7 @@ const sendOtp=async(req,res)=>{
         user.isOtpVerified=false
         await user.save()
 
-        const sendOtp=async(req,res)=>{
-    try {
-         const{ email}=req.body
-        const user= await User.findOne({email})
-        if(!user){
-          return  res.status(400).json({
-                error:true,
-                message:'user does not exist'
-            })
-        }
-
-        // otp create
-        const otp=Math.floor(1000 + Math.random() * 9000).toString()
-
-        user.resetOtp=otp // stores in resetOtp
-        user.otpExpires=Date.now()+5*60*1000
-        user.isOtpVerified=false
-        await user.save()
-
-        sendOtpMail(email,otp)
+        await sendOtpMail(email,otp)
 
         return res.status(200).json({
             error:false,
@@ -187,20 +168,6 @@ const sendOtp=async(req,res)=>{
         })
     }
 }
-await sendOtpMail(email,otp)
-
-        return res.status(200).json({
-            error:false,
-        message:'otp sent successfully'
-    })
-    } catch (error) {
-         return res.status(500).json({
-            error:true,
-            message:`otp send error${error}`
-        })
-    }
-}
-
 //-------------------------------verify otp-------------------------------
 const verifyOtp= async(req,res)=>{
 
