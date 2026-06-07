@@ -25,7 +25,7 @@ const server=http.createServer(app)
 
 const io=new Server(server,{
    cors:({
-    origin: ['https://quickbite-43lo.onrender.com'],
+    origin: ['https://quickbite-atek.onrender.com'],
     credentials:true,
     methods:['POST','GET']
 }) 
@@ -34,7 +34,7 @@ const io=new Server(server,{
 app.set('io',io)
 
 app.use(cors({
-    origin: ['https://quickbite-43lo.onrender.com'],
+    origin: ['https://quickbite-atek.onrender.com'],
     credentials:true
 }))
 
