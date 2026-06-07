@@ -32,19 +32,12 @@ const useGetCity = () => {
         return
       }
 
-      // Check if we're on HTTPS (required for mobile browsers)
-      const isSecure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1'
-      if (!isSecure) {
-        console.error("Geolocation requires HTTPS. Current protocol:", location.protocol)
-        alert("Location services require a secure connection (HTTPS). Please ensure your site is served over HTTPS.")
+      // Check if we're on HTTPS (required for mobile)
+      if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+        console.error("Geolocation requires HTTPS")
+        alert("Location services require a secure connection (HTTPS)")
         return
       }
-      
-      console.log("Starting location request...", {
-        protocol: location.protocol,
-        hostname: location.hostname,
-        isSecure
-      })
 
       try {
         // Request permission and get location
@@ -105,42 +98,33 @@ const useGetCity = () => {
           (error) => {
             // Handle different error codes
             let errorMessage = "Unable to retrieve your location. "
-            let detailedLog = ""
             
             switch(error.code) {
               case error.PERMISSION_DENIED:
                 errorMessage += "Please allow location access in your browser settings."
-                detailedLog = "User denied location permission"
+                console.error("User denied location permission")
                 break
               case error.POSITION_UNAVAILABLE:
-                errorMessage += "Location information is unavailable. Please check your device's location settings."
-                detailedLog = "Location unavailable - GPS may be off"
+                errorMessage += "Location information is unavailable."
+                console.error("Location unavailable")
                 break
               case error.TIMEOUT:
-                errorMessage += "Location request timed out. Please try again."
-                detailedLog = "Location timeout after 15 seconds"
+                errorMessage += "Location request timed out."
+                console.error("Location timeout")
                 break
               default:
                 errorMessage += "An unknown error occurred."
-                detailedLog = `Unknown location error: ${error.message}`
+                console.error("Unknown location error:", error)
             }
-            
-            console.error("Geolocation error:", {
-              code: error.code,
-              message: error.message,
-              detailedLog
-            })
             
             // Only show alert if no saved location
             if(!savedCity) {
-              alert(errorMessage + "\n\nNote: You may need to:\n1. Enable location services on your device\n2. Allow location access for this website\n3. Check if you have a stable internet connection")
-            } else {
-              console.log("Using saved location due to error:", savedCity)
+              alert(errorMessage)
             }
           },
           {
             enableHighAccuracy: true, // Use GPS for accurate location (important for mobile)
-            timeout: 20000, // 20 second timeout (longer for mobile networks)
+            timeout: 15000, // 15 second timeout (increased for mobile)
             maximumAge: 0 // Don't use cached position (get fresh location)
           }
         )
