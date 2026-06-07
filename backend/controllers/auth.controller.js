@@ -43,8 +43,8 @@ const sendOtpMail = require('../utils/mail.js')
         const token = await gentoken(user._id)
 
         res.cookie('token',token,{
-            secure:false, // for security purpose
-            sameSite:'strict', 
+            secure:true, // for security purpose
+            sameSite:null, 
             maxAge:7*24*60*60*1000, // defines how many days token is valid 7 days
             httpOnly:true
         })
@@ -98,8 +98,8 @@ const sendOtpMail = require('../utils/mail.js')
         const token = await gentoken(user._id)
 
         res.cookie('token',token,{
-            secure:false, // for security purpose
-            sameSite:'strict', 
+             secure:true, // for security purpose
+            sameSite:null, 
             maxAge:7*24*60*60*1000, // defines how many days token is valid 7 days
             httpOnly:true
         })
@@ -251,8 +251,8 @@ const googleAuth= async(req,res)=>{
  const token = await gentoken(user._id)
 
         res.cookie('token',token,{
-            secure:false, // for security purpose
-            sameSite:'strict', 
+            secure:true, // for security purpose
+            sameSite:null, 
             maxAge:7*24*60*60*1000, // defines how many days token is valid 7 days
             httpOnly:true
         })
